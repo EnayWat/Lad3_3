@@ -46,18 +46,19 @@ public class OX {
     }
 
     public boolean put(int col, int row) {
-        if (row > 2 || col > 2) {
-            return false;
-        } else {
+        try {
             if (!table[row + 1][col + 1].equals("-")) {
                 return false;
             }
-            else {
-                table[row + 1][col + 1] = getCurrentPlayer();
-                return true;
-            }
+
+            table[row + 1][col + 1] = getCurrentPlayer();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
         }
-    }
+                return true;
+
+        }
+
 
     public void SwitchPlayer() {
         if(player=="X"){
@@ -69,18 +70,18 @@ public class OX {
     }
 
     public boolean checkWin(int col, int row) {
-        boolean checkCol = true;
-        boolean checkRow = true;
+        boolean checkWinCol = true;
+        boolean checkWinRow = true;
         /*
         /check Col
          */
             for (int i= 0;i < 3; i++) {
                 if (!table[i + 1][col + 1].equals(getCurrentPlayer())) {
-                    checkCol = false;
+                    checkWinCol = false;
                     break;
                 }
             }
-       if(checkCol){
+       if(checkWinCol){
            return true;
        }
             /*
@@ -88,14 +89,32 @@ public class OX {
          */
         for (int i= 0;i < 3; i++) {
             if (!table[row + 1][i + 1].equals(getCurrentPlayer())) {
-                checkRow = false;
+                checkWinRow = false;
                 break;
             }
         }
-        if(checkRow){
+        if(checkWinRow){
             return true;
         }
 
+        boolean checkWinES = true;
+        for (int i= 0;i < 3; i++) {
+            if (!table[i + 1][i + 1].equals(getCurrentPlayer())) {
+                checkWinES = false;
+                break;
+            }
+        }
+        if(checkWinES){
+            return true;
+        }
          return false;
+    }
+
+    public String get(int col, int row) {
+        if(col >2 || col <0 || row >2 || row <0){
+            return null;
+        }
+            return table[row + 1][col + 1];
+
     }
 }

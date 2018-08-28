@@ -6,21 +6,29 @@ public class Game {
     private static int col, row;
 
     public static void input() {
-        System.out.print(ox.getCurrentPlayer() + " (col): ");
-        col = sc.nextInt();
-        System.out.print(ox.getCurrentPlayer() + " (row): ");
-        row = sc.nextInt();
+        boolean canPut = true;
+        do {
+            System.out.print(ox.getCurrentPlayer() + " (col) :");
+            col = sc.nextInt();
+            System.out.print(ox.getCurrentPlayer() + " (row) :");
+            row = sc.nextInt();
+            canPut = ox.put(col, row);
+            if (!canPut) {
+                System.out.println("Please input number between 0-2");
+            }
+        }while (!canPut);
     }
     public static void main(String[] args){
         ox = new OX();
         while (true) {
-            System.out.print(ox.getTabeString());
+            printTable();
             input();
-            ox.put(col, row);
             ox.SwitchPlayer();
-            if(ox.checkWin(col,row)){
-                break;
-            }
+
         }
+    }
+
+    private static void printTable() {
+        System.out.print(ox.getTabeString());
     }
 }
