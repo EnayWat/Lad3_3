@@ -9,12 +9,20 @@ public class OX {
     private int countX;
     private int countO;
     private int countDraw;
+    private int turnCount;
+    private int scoreX;
+    private int scoreO;
+    private int scoreDraw;
 
     public OX() {
         player = "X";
         countX = 0;
         countO = 0;
         countDraw = 0;
+        turnCount = 0;
+        scoreX = 0;
+        scoreO = 0;
+        scoreDraw = 0;
 
     }
 
@@ -54,6 +62,18 @@ public class OX {
             table[row + 1][col + 1] = getCurrentPlayer();
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
+        }
+        turnCount++;
+        if(checkWin(col,row)){
+            if(player.equals("X")){
+                scoreX++;
+            }else if(player.equals("O")){
+                scoreO++;
+            }
+        }
+
+        if(isDraw()){
+            scoreDraw++;
         }
                 return true;
 
@@ -107,6 +127,16 @@ public class OX {
         if(checkWinES){
             return true;
         }
+        boolean checkWinSS = true;
+        for (int i= 0;i < 3; i++) {
+            if (!table[i + 1][3-i].equals(getCurrentPlayer())) {
+                checkWinSS = false;
+                break;
+            }
+        }
+        if(checkWinSS){
+            return true;
+        }
          return false;
     }
 
@@ -116,5 +146,38 @@ public class OX {
         }
             return table[row + 1][col + 1];
 
+    }
+
+    public void reset() {
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                table[i+1][j+1] = "-";
+            }
+        }
+        player = "X";
+        turnCount = 0;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public boolean isDraw() {
+        if(turnCount < 9){
+            return false;
+        }
+        return true;
+    }
+
+    public int getScoreX() {
+        return scoreX;
+    }
+
+    public int getScoreO() {
+        return scoreO;
+    }
+
+    public int getScoreDraw() {
+        return scoreDraw;
     }
 }
